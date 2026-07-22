@@ -7,17 +7,11 @@
 </head>
 <body>  
   <form action="site.php" method="get">
-    Name: <input type="text" name="name"><br><br>
-    Age: <input type="number" name="age">
+    <input type="number" name="num1"><br><br>
+    <input type="number" name="num2"> 
 <input type="submit">
   </form>
-  <br>
-  Your name is <?php 
-  echo $_GET["name"]//name of the input you want to grab
-  ?>
-  <br>
-   You are <?php 
-  echo $_GET["age"]//name of the input you want to grab
-  ?> years old.
+Answer: <?php 
+echo $_GET["num1"] + $_GET["num2"]?> 
 </body>
 </html>
