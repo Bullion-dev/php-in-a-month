@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-  <?php
-  $phrase = "Echo Room";
-  $phrase[0] = "I";
-  echo str_replace("Icho", "Echo", $phrase);
-  echo strtolower($phrase);
-  echo substr($phrase, 5, 3);
-  ?>  
+<body>  
+  <form action="site.php" method="get">
+    Name: <input type="text" name="name"><br><br>
+    Age: <input type="number" name="age">
+<input type="submit">
+  </form>
+  <br>
+  Your name is <?php 
+  echo $_GET["name"]//name of the input you want to grab
+  ?>
+  <br>
+   You are <?php 
+  echo $_GET["age"]//name of the input you want to grab
+  ?> years old.
 </body>
 </html>
