@@ -7,14 +7,11 @@
 </head>
 <body>
   <?php
-  $characterName = "Ronaldo";
-  $characterAge = 36;
-  echo "There was a man named $characterName <br>";
-  echo "He was $characterAge years old when he won his first ever world cup<br>";
-  $characterName = "Messi";
-  echo "That cemented $characterName as the Greatest ever the world has seen<br>";
-  echo "Ronaldo was nowhere to be found<br>";
- 
+  $phrase = "To be or not to be";
+  $age = 30;
+  $gpa = 3.734;
+  $isMale = true;
+ echo $phrase;
   ?>  
 </body>
 </html>
