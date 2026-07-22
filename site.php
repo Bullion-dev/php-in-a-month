@@ -7,9 +7,13 @@
 </head>
 <body>
   <?php
-  echo "<h1>Sam Site</h1>";
-  echo "<hr>";
-  echo "<p>This is my site</p>";
+  $characterName = "Ronaldo";
+  $characterAge = 36;
+  echo "There was a man named $characterName <br>";
+  echo "He was $characterAge years old when he won his first ever world cup<br>";
+  $characterName = "Messi";
+  echo "That cemented $characterName as the Greatest ever the world has seen<br>";
+  echo "Ronaldo was nowhere to be found<br>";
  
   ?>  
 </body>
