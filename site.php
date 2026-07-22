@@ -7,11 +7,11 @@
 </head>
 <body>
   <?php
-  $phrase = "To be or not to be";
-  $age = 30;
-  $gpa = 3.734;
-  $isMale = true;
- echo $phrase;
+  $phrase = "Echo Room";
+  $phrase[0] = "I";
+  echo str_replace("Icho", "Echo", $phrase);
+  echo strtolower($phrase);
+  echo substr($phrase, 5, 3);
   ?>  
 </body>
 </html>
