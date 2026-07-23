@@ -7,14 +7,16 @@
 </head>
 <body>  
   <form action="site.php" method="post">
-    Password: <input type="password" name="password"><br>
-   
-<input type="submit">
+  Apples: <input type="checkbox" name="fruits[]" value="apples" ><br>;//whenever we're trying to get input from multiple checkboxes
+   we always need to use the square brackets
+   Oranges: <input type="checkbox" name="fruits[]" value="oranges" ><br>;
+   Pears: <input type="checkbox" name="fruits[]" value="pears" ><br>;
+
+<input type="submit">;
   </form>
 <?php 
-echo $_POST["password"];//POST is more secure than GET. 
-//Stops your info from showing up in the URL. 
-// Got passed between the client and the server
+$fruits= $_POST["fruits"];
+echo $fruits[0];
 ?>
 </body>
 </html>
