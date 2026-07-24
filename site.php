@@ -7,18 +7,14 @@
 </head>
 <body>  
   <form action="site.php" method="post">
-  Apples: <input type="checkbox" name="fruits[]" value="apples" ><br>
-   Oranges: <input type="checkbox" name="fruits[]" value="oranges" ><br>
-   Pears: <input type="checkbox" name="fruits[]" value="pears" ><br>
-
+  Student: <input type="text" name="student">
 <input type="submit">;
   </form>
 <?php 
-if (isset($_POST["fruits"])) {
-    $fruits = $_POST["fruits"];
-    foreach ($fruits as $fruit) {
-        echo "$fruit <br>";
-    }
+$grades = array("jim" => "B", "Cole" => "A++", "Rex" => "C");
+if (isset($_POST["student"])){
+    $key = $_POST["student"];
+echo $grades[$key];
 }
 ?>
 </body>
