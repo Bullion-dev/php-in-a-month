@@ -6,16 +6,12 @@
     <title>Document</title>
 </head>
 <body>  
-  <form action="site.php" method="post">
-  Student: <input type="text" name="student">
-<input type="submit">;
-  </form>
+  
 <?php 
-$grades = array("jim" => "B", "Cole" => "A++", "Rex" => "C");
-if (isset($_POST["student"])){
-    $key = $_POST["student"];
-echo $grades[$key];
+function sayHi($num) {
+    return 1 + $num;
 }
+ echo sayHi(5);
 ?>
 </body>
 </html>
