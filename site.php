@@ -7,16 +7,19 @@
 </head>
 <body>  
   <form action="site.php" method="post">
-  Apples: <input type="checkbox" name="fruits[]" value="apples" ><br>;//whenever we're trying to get input from multiple checkboxes
-   we always need to use the square brackets
-   Oranges: <input type="checkbox" name="fruits[]" value="oranges" ><br>;
-   Pears: <input type="checkbox" name="fruits[]" value="pears" ><br>;
+  Apples: <input type="checkbox" name="fruits[]" value="apples" ><br>
+   Oranges: <input type="checkbox" name="fruits[]" value="oranges" ><br>
+   Pears: <input type="checkbox" name="fruits[]" value="pears" ><br>
 
 <input type="submit">;
   </form>
 <?php 
-$fruits= $_POST["fruits"];
-echo $fruits[0];
+if (isset($_POST["fruits"])) {
+    $fruits = $_POST["fruits"];
+    foreach ($fruits as $fruit) {
+        echo "$fruit <br>";
+    }
+}
 ?>
 </body>
 </html>
