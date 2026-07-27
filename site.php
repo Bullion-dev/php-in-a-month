@@ -7,10 +7,9 @@
 </head>
 <body>  
 <?php
-$index = 6;
-while($index <= 5){
-echo "$index <br>";
-$index++;
+$luckyNumbers = array(4,8,13,20,14);
+for($i=0; $i <= count($luckyNumbers); $i++){
+echo "$luckyNumbers[$i] <br>";
 }
 ?>
 </body>
