@@ -6,8 +6,10 @@
     <title>Document</title>
 </head>
 <body>  
-<?php include "header.html" ?>
-<p>Hello</p>
-<?php include "footer.html" ?>
+<?php 
+$title = "My First Viral Post";
+$author = "Sam";
+$wordCount = 400; 
+include "article-header.php" ?>
 </body>
 </html>
