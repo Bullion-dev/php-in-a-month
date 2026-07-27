@@ -7,9 +7,9 @@
 </head>
 <body>  
   <form action="site.php" method="post">
-   First Number: <input type="number" name="num1">
-   OP: <input type="text" name="op">
-   Second Number: <input type="number" name="num2">
+   First Number: <input type="number" step="0.01" name="num1"><br>
+   OP: <input type="text" name="op"><br>
+   Second Number: <input type="number" step="0.001" name="num2"><br>
 
    <input type="submit">
 </form> 
@@ -19,16 +19,16 @@ $op = $_POST["op"];
 $num2 = $_POST["num2"];
 
 if($op == "+"){
-    echo $num + $num2;
+    echo $num1 + $num2;
 }
     elseif($op == "-"){
-        echo $num - $num2;
+        echo $num1 - $num2;
     }
      elseif($op == "/"){
-        echo $num / $num2;
+        echo $num1 / $num2;
     }
      elseif($op == "*"){
-        echo $num * $num2;
+        echo $num1 * $num2;
     }
     else{
         echo "invalid operator";
