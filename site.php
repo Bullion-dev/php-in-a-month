@@ -7,32 +7,37 @@
 </head>
 <body>  
 <?php 
-/* class is basically just a blueprint
-a spec of what a book is.
-we're basically defining a new data type */
-class Book {
-var $title;
-var $author;
-var $pages;
+class Car {
+var $make;
+var $model;
+var $year;
+
+/* A constructor is basically 
+a function that will be called 
+whenever we create an object of a class*/
+
+function __construct($aMake, $aModel, $aYear){
+    /*Left side = the object's permanent storage. 
+    
+    Right side = the temporary value that just arrived
+    
+    you need $this-> to access the object's stored properties*/
+
+$this->make = $aMake;
+$this->model = $aModel;
+$this->year = $aYear;
 }
 
-/* for here we're creating objects.
-it's an instance of a class. 
-The arrow operator -> (dash + greater-than,
- no space between them) is what PHP uses to access 
- an object's properties or methods*/
+function describe(){
+    echo "The {$this->make} was one of the most popular cars in {$this->year}";
+}
+}
 
-$book1 = new Book;
-$book1->title = "How to stop worrying and start living";
-$book1->author = "Dale Carnegie";
-$book1->pages = 400;
 
-$book2 = new Book;
-$book2->title = "How to win friends and influence people";
-$book2->author = "Dale Carnegie";
-$book2->pages = 700;
+$car1 = new Car("Porsche", "Mustang", 2015);
 
-echo $book2->pages;
- ?>
+$car1->describe();
+
+  ?>
 </body>
 </html>
