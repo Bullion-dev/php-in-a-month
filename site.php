@@ -29,14 +29,34 @@ $this->year = $aYear;
 }
 
 function describe(){
-    echo "The {$this->make} was one of the most popular cars in {$this->year}";
+    echo "The {$this->make} was one of the most popular cars in {$this->year}<br>";
+}
+
+function isClassic(){
+    switch($this->year){
+        case "2015":
+            echo "This car is a classic <br>";
+            break;
+        case "2018":
+            echo "This car is not classic <br>";
+            break;
+        case "2022":
+            echo "This car is not a classic <br>";
+            break;
+        default:
+            echo "NOT IN RANGE <br>";
+    }
 }
 }
 
 
 $car1 = new Car("Porsche", "Mustang", 2015);
+$car2 = new Car("Honda", "Civic", 2022);
 
 $car1->describe();
+$car1->isClassic();
+$car2->describe();
+$car2->isClassic();
 
   ?>
 </body>
