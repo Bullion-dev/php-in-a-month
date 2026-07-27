@@ -47,16 +47,42 @@ function isClassic(){
             echo "NOT IN RANGE <br>";
     }
 }
+
+function applyDiscount($percent){
+    $discountAmount = 20000 * ($percent / 100);
+    $newPrice = 20000 - $discountAmount;
+    echo "After a {$percent}% discount, the {$this->make} costs $newPrice <br>";
+}
+}
+
+//second class
+class electricCar extends Car{
+var $batteryRange;
+
+function __construct($aMake, $aModel, $aYear , $aRange){
+    parent ::__construct($aMake, $aModel, $aYear);// reuse Car's constructor
+     $this->batteryRange = $aRange;
+}
+
+  function showRange(){
+        echo "{$this->make} can go {$this->batteryRange} miles on a charge <br>";
+    }
+
 }
 
 
 $car1 = new Car("Porsche", "Mustang", 2015);
 $car2 = new Car("Honda", "Civic", 2022);
+$tesla = new electricCar("Tesla", "Model 3", 2023, 300);
 
 $car1->describe();
 $car1->isClassic();
 $car2->describe();
 $car2->isClassic();
+$car1->applyDiscount(15);
+$car2->applyDiscount(35);
+$tesla->describe();     // works! inherited from Car
+$tesla->showRange();    // the new method, only ElectricCar has this
 
   ?>
 </body>
