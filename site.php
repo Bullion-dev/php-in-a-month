@@ -6,11 +6,8 @@
     <title>Document</title>
 </head>
 <body>  
-<?php
-$luckyNumbers = array(4,8,13,20,14);
-for($i=0; $i <= count($luckyNumbers); $i++){
-echo "$luckyNumbers[$i] <br>";
-}
-?>
+<?php include "header.html" ?>
+<p>Hello</p>
+<?php include "footer.html" ?>
 </body>
 </html>
