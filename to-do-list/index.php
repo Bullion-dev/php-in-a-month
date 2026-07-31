@@ -57,6 +57,38 @@ if (isset($_POST["delete"])) {
     $_SESSION["tasks"] = array_values($_SESSION["tasks"]);
 }
 
+if (isset($_POST["edit"])) {
+    // Grab the hidden index value silently carried by whichever Edit button was clicked
+   // What this does: when someone clicks the Edit button on, say, task #1, 
+   // this catches that click and stores 1 into a new session variable called editingIndex. 
+   // Think of this as PHP leaving itself a sticky note that says: "we are currently in the 
+   // middle of editing task #1 — remember this across the next page load
+    $_SESSION["editingIndex"] = $_POST["editIndex"] ;
+}
+
+
+//The first three lines just start with empty defaults 
+// if we're not currently editing anything, the form should just show blank boxes, like normal.
+$editTitle = "";
+$editDescription = "";
+$editDueDate = "";
+
+
+//if (isset($_SESSION["editingIndex"])) — checks: "are we currently in the 
+// middle of editing something?" (this is true only right after someone clicked an Edit button)
+if(isset($_SESSION["editingIndex"])){
+
+    //this fetches the actual task object sitting at that remembered position
+ $indexBeingEdited   = $_SESSION["tasks"][$_SESSION["editingIndex"]];
+
+ //The last three lines then copy that task's current values into our display 
+ // variables, replacing the empty defaults.
+  $editTitle = $indexBeingEdited->title;
+  $editDescription = $indexBeingEdited->description;
+  $editDueDate = $indexBeingEdited->dueDate;
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -69,10 +101,10 @@ if (isset($_POST["delete"])) {
 <body>
     <!-- The form: collects title, description, due date for a NEW task -->
     <form action="index.php" method="post">
-        Title: <input type="text" name="title"><br>
-         Description: <input type="text" name="description"><br>
-          Date: <input type="date" name="dueDate"><br>
-        <input type="submit" name="submit">
+    Title: <input type="text" name="title" value="<?php echo $editTitle; ?>"><br>
+    Description: <input type="text" name="description" value="<?php echo $editDescription; ?>"><br>
+    Date: <input type="date" name="dueDate" value="<?php echo $editDueDate; ?>"><br>
+    <input type="submit" name="submit">
 </form>
 
 
@@ -88,6 +120,10 @@ foreach ($_SESSION["tasks"] as $index => $task){
     <form action="index.php" method="post">
         <input type="hidden" name="deleteIndex" value="<?php echo $index; ?>">
         <input type="submit" name="delete" value="Delete">
+    </form>
+     <form action="index.php" method="post">
+        <input type="hidden" name="editIndex" value="<?php echo $index; ?>">
+        <input type="submit" name="edit" value="Edit">
     </form>
     <?php
     // Re-enter PHP just to close the loop opened above
