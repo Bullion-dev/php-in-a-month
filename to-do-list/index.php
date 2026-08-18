@@ -19,10 +19,12 @@ class Tasks {
 
     // A method that prints this specific task's own stored data
     function describe(){
-        echo "{$this->title} {$this->description} {$this->dueDate}<br>";
+        // Escape user-provided task data before displaying it in HTML
+// to prevent XSS attacks.
+        echo "{htmlspecialchars($this->title)} {htmlspecialchars($this->description)} {htmlspecialchars($this->dueDate)}<br>";
     }
 }
-
+ 
 // Check 1: does our "tasks" list already exist in this session?
 // Only true on the very first visit — after that, this block is skipped
 if(!isset($_SESSION["tasks"])){
@@ -100,10 +102,12 @@ if(isset($_SESSION["editingIndex"])){
 </head>
 <body>
     <!-- The form: collects title, description, due date for a NEW task -->
+     <!-- Escape edited task values before inserting them into HTML attributes
+     to prevent user input from being interpreted as HTML/JavaScript. -->
     <form action="index.php" method="post">
-    Title: <input type="text" name="title" value="<?php echo $editTitle; ?>"><br>
-    Description: <input type="text" name="description" value="<?php echo $editDescription; ?>"><br>
-    Date: <input type="date" name="dueDate" value="<?php echo $editDueDate; ?>"><br>
+    Title: <input type="text" name="title" value="<?php echo htmlspecialchars($editTitle); ?>"><br>
+    Description: <input type="text" name="description" value="<?php echo htmlspecialchars($editDescription); ?>"><br>
+    Date: <input type="date" name="dueDate" value="<?php echo htmlspecialchars($editDueDate); ?>"><br>
     <input type="submit" name="submit">
 </form>
 
