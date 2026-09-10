@@ -14,7 +14,9 @@ $result = mysqli_query($conn, "SELECT * FROM customers");
     <title>Customers</title>
 </head>
 <body>
-    <h1>CUSTOMERS</h1>
+    <h1>CUSTOMERS</h1><br>
+    <a href="add-customer.php">Add Customer</a><br><br>
+
   <table border="1">
     <tr>
         <th>Name</th>
@@ -32,7 +34,14 @@ $result = mysqli_query($conn, "SELECT * FROM customers");
         <td><?php echo $row["phone"]; ?></td>
         <td><?php echo $row["location"]; ?></td>
         <td><?php echo $row["notes"]; ?></td>
-        <td><a href="edit-customer.php?id=<?php echo $row["id"]; ?>">Edit</a></td>
+        <td>
+            <a href="edit-customer.php?id=<?php echo $row["id"]; ?>">Edit</a>
+    <a href="delete-customer.php?id=<?php echo $row["id"]; ?>" 
+               onclick="return confirm('Are you sure you want to delete this customer?');">
+               Delete
+            </a>
+    </td>
+        
 </tr>
 
 <?php } ?>
