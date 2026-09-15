@@ -1,8 +1,27 @@
 <?php
+session_start();
 include "db.php";
 
-//query the database
+//check if the search button was clicked
+if(isset($_GET['search']) && !empty(trim($_GET['search']))){
+    $search = "%" . trim($_GET['search']) . "%" ;
+
+    //// Use a prepared statement for security against SQL injection
+    $stmt = mysqli_prepare($conn, "SELECT * FROM bookings WHERE full_name LIKE ? ");
+
+    //bind
+    mysqli_stmt_bind_param($stmt,"s", $search);
+    //execute
+     mysqli_stmt_execute($stmt);
+     //save the result in a result variable
+     $result = mysqli_stmt_get_result($stmt);
+
+}else{
+    // Default query if no search term is entered
 $result = mysqli_query($conn, "SELECT * FROM bookings");
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +33,29 @@ $result = mysqli_query($conn, "SELECT * FROM bookings");
 </head>
 <body>
     <h1>Add Booking</h1>
-    <a href="add-booking.php">Add Booking</a>
+    <a href="add-booking.php">Add Booking</a><br><br>
+
+<!--display the flash message if it exists -->
+<?php 
+if(isset($_SESSION['success_message'])):
+    //the colon  tells PHP "The condition check is finished, and everything
+    // from this point down belongs to this if statement until you see endif;
+?>
+<div style="background-color: #d4edda; color: #155724; padding: 10px; margin: 15px 0; border: 1px solid #c3e6cb;">
+<?php
+echo $_SESSION['success_message'];
+unset($_SESSION['success_message']); //clear it so it doesn't stay on refresh
+?>
+</div>
+<?php endif; //acts as the closing curly braces ?>
+
+<!--search button-->
+<form method="GET" action="index.php" style="margin-bottom: 15px;">
+<input type="text" placeholder="Search by Guest name......" name="search" value="<?php echo isset($_GET['search']); ?>">
+<button type="submit">Search</button>
+<a href="index.php">Reset</a>
+</form>
+
         <table border="1">
 <tr>
     <th>Full Name</th>

@@ -1,4 +1,6 @@
 <?php
+
+session_start(); //start session at the very top
 include "db.php";
 
 if($_SERVER[ "REQUEST_METHOD" ] == "POST"){
@@ -23,6 +25,9 @@ mysqli_stmt_bind_param($stmt, "ssssiii",$full_name,$phone,$check_in_date,$check_
 mysqli_stmt_execute($stmt);
 
 mysqli_stmt_close($stmt);
+
+//session message
+$_SESSION['success_message'] = "Booking successfully created";
 
 header("Location: index.php");
 exit();
