@@ -2,12 +2,19 @@
 session_start();
 include "db.php";
 
+
+
 //check if the search button was clicked
 if(isset($_GET['search']) && !empty(trim($_GET['search']))){
     $search = "%" . trim($_GET['search']) . "%" ;
+// Use a prepared statement for security against SQL injection
+    $sql = "SELECT bookings.*, customers.full_name, customers.phone
+    FROM bookings
+    JOIN customers ON bookings.custom_id = customers.id 
+    WHERE customers.full_name LIKE ?";
 
-    //// Use a prepared statement for security against SQL injection
-    $stmt = mysqli_prepare($conn, "SELECT * FROM bookings WHERE full_name LIKE ? ");
+
+    $stmt = mysqli_prepare($conn, $sql );
 
     //bind
     mysqli_stmt_bind_param($stmt,"s", $search);
@@ -18,7 +25,11 @@ if(isset($_GET['search']) && !empty(trim($_GET['search']))){
 
 }else{
     // Default query if no search term is entered
-$result = mysqli_query($conn, "SELECT * FROM bookings");
+    $sql = "SELECT bookings.*, customers.full_name,customers.phone
+    FROM bookings
+    JOIN customers ON bookings.custom_id = customers.id";
+
+$result = mysqli_query($conn, $sql);
 }
 
 
@@ -51,10 +62,13 @@ unset($_SESSION['success_message']); //clear it so it doesn't stay on refresh
 
 <!--search button-->
 <form method="GET" action="index.php" style="margin-bottom: 15px;">
-<input type="text" placeholder="Search by Guest name......" name="search" value="<?php echo isset($_GET['search']); ?>">
+<input type="text" placeholder="Search by Guest name......" name="search" value="<?php echo htmlspecialchars(($_GET['search']) ?? ""); ?>">
 <button type="submit">Search</button>
 <a href="index.php">Reset</a>
 </form>
+
+<!-- mysqli_num_rows() counts how many rows were found -->
+<?php if(mysqli_num_rows($result)) : ?>
 
         <table border="1">
 <tr>
@@ -91,5 +105,8 @@ while ($row = mysqli_fetch_assoc($result)) { ?>
 </tr>
 <?php } ?>
 </table>
+<?php else: ?>
+    <p style="color:red;">Doesn't match our records</p>
+<?php endif; ?>
 </body>
 </html>

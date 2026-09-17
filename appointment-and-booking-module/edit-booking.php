@@ -4,7 +4,10 @@ include "db.php";
 if(isset($_GET["id"])){
     $id = $_GET["id"];
 
-    $sql = "SELECT * FROM bookings WHERE id = ?";
+    $sql = "SELECT bookings.*, customers.full_name,customers.phone
+    FROM bookings
+    JOIN customers ON bookings.custom_id = customers.id
+    WHERE bookings.id = ?";
     //prepare
     $stmt = mysqli_prepare($conn, $sql );
 
@@ -38,6 +41,7 @@ include "db.php";
 
 if($_SERVER[ "REQUEST_METHOD" ] == "POST"){
  $id = $_POST["id"];
+ $custom_id = $_POST["custom_id"];
 $full_name = $_POST["full_name"];
 $phone = $_POST["phone"];
 $check_in_date = $_POST["check_in_date"];
@@ -47,25 +51,17 @@ $children = $_POST["children"];
 $rooms = $_POST["rooms"];
 
 
-$sql_update= "UPDATE bookings SET full_name=?, phone=?, check_in_date=?, check_out_date=?,adults=?,children=?,rooms=? WHERE id=?";
+$sql_update= "UPDATE customers SET full_name=?, phone=? WHERE id=?";
 //prepared statements
 //placeholder
 $stmt = mysqli_prepare($conn, $sql_update);
 
 //bind
-mysqli_stmt_bind_param($stmt, "ssssiiii",$full_name,$phone,$check_in_date,$check_out_date,$adults,$children,$rooms,$id);
+mysqli_stmt_bind_param($stmt, "ssi",$full_name,$phone,$custom_id);
+mysqli_stmt_execute($stmt);
 
-//execute
-if(mysqli_stmt_execute($stmt)){
-    header("Location: index.php");
-    exit;
-}
-else{
-    echo "Not Updated";
-}
-
-
-
+ header("Location: index.php");
+exit;
 
 }
     
@@ -84,9 +80,11 @@ else{
     <h2>Edit Your Booking</h2>
     
     <!-- Points to your PHP processing file -->
-    <form action="edit-booking.php" method="POST">
+    <form method="POST">
         
     <input type="hidden" name="id" value="<?php echo $guest["id"]; ?>">
+    <input type="hidden" name="custom_id" value="<?php echo $guest["custom_id"]; ?>">
+    
         <label for="full_name">Full Name:</label><br>
         <input type="text" id="full_name" value="<?php echo $guest["full_name"]; ?>" name="full_name"required><br><br>
         
