@@ -1,5 +1,8 @@
 <?php
 session_start();
+//MYSQLI_REPORT_ERROR  catches errors that has to do with typos in SQL queries
+//MYSQLI_REPORT_STRICT turns standard database errors into exceptions instead of just nasty warnings
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 include "db.php";
 
 $error = "";
@@ -26,12 +29,23 @@ $error = "Passwords do not match";
         mysqli_stmt_bind_param($login_stmt,"ss", $username, $hash_password);
         
         //This checks whether the database successfully ran the insert command.
-        if(mysqli_stmt_execute($login_stmt)){
+        try{
+            mysqli_stmt_execute($login_stmt);
             $success = "Registration successful! You can now log in.";
-        }else{
+        }
+         
+        //now mysqli_stmt_exception is a safety net that catches the error
+        // and then the $e is an object (a container) that stores the error
+        //whatever error it may be
+        catch (mysqli_sql_exception $e) {
+        
             //mysqli_errno($conn) asks MySQL: "What was the exact error code you just ran into?"
             //If the code is 1062, it's MySQL's specific code for: "Hey, this value already exists in a unique column!"
-            if(mysqli_errno($conn)== 1062){
+
+            //now after storing the error we need to check if the error matches 1062
+            //so we reach inside the container to to get or see if the error matches whart we're trying
+            //to catch
+            if($e ->getCode() ==1062){
            $error = "That username is already taken. Choose another username";
             }else {
                 //any other database error(connection drop,server issue,etc)
@@ -74,7 +88,7 @@ $error = "Passwords do not match";
     <?php endif; ?>
 
 
-<form action="register.php" method="POST">
+<form action="signup.php" method="POST">
         <div style="margin-bottom: 15px;">
             <label>Username:</label><br>
             <input type="text" name="username" required>
@@ -92,6 +106,8 @@ $error = "Passwords do not match";
             <input type="checkbox" onclick="togglePasswordVisibility()">
         </div>
         <button type="submit">Register</button>
+        <a href="login.php">already have an account ?</a>
+        <a href="login.php">Login</a>
     </form>
     <script>
         function togglePasswordVisibility() {
