@@ -108,5 +108,9 @@ while ($row = mysqli_fetch_assoc($result)) { ?>
 <?php else: ?>
     <p style="color:red;">Doesn't match our records</p>
 <?php endif; ?>
+
+<a href="logout.php">
+<button >Log Out</button>
+</a>
 </body>
 </html>
