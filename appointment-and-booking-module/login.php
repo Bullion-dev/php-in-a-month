@@ -25,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     //now we get to look inside the db to see if the user exists
     //prepared statements
-    $sql =  "SELECT id, username,password FROM users WHERE username = ?";
+    $sql =  "SELECT id, username,password,roles FROM users WHERE username = ?";
     $login_stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($login_stmt, "s", $username);
     mysqli_stmt_execute( $login_stmt);
@@ -33,10 +33,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $result = mysqli_stmt_get_result($login_stmt);
 
     //password verification
-    if($result_stored = mysqli_fetch_ass($result)){
+    if($result_stored = mysqli_fetch_assoc($result)){
         if(password_verify($password, $result_stored["password"])){
             $_SESSION["user_id"] = $result_stored["id"] ;
             $_SESSION["username"] = $result_stored["username"] ;
+            //ading the roles to session
+            $_SESSION["roles"] = $result_stored["roles"];
 
             header("Location: index.php");
             exit();
@@ -71,8 +73,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body style="font-family: Arial, sans-serif; margin: 50px;">
     <h2>Log In</h2>
 
-    <?php if (!empty($error)): ?>
-        <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
+    <?php if (!empty($error_message)): ?>
+        <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
     <?php endif; ?>
 
     <?php if (!empty($success)): ?>
@@ -80,7 +82,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <?php endif; ?>
 
 
-<form action="index.php" method="POST">
+<form action="login.php" method="POST">
         <div style="margin-bottom: 15px;">
             <label>Username:</label><br>
             <input type="text" name="username" required>

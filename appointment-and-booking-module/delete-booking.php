@@ -6,6 +6,12 @@ if(isset($_GET["id"])){
 
     include "db.php";
 
+if(!isset($_SESSION["roles"]) || $_SESSION["roles"] !== "admin"){
+    $_SESSION["error"] = "Access Denied. Admins Only";
+    unset($_SESSION["error"]);
+
+}
+
     //prepared
     $stmt = mysqli_prepare($conn, "DELETE FROM bookings WHERE id=? ");
 

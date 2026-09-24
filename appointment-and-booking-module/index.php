@@ -8,8 +8,13 @@ include "db.php";
 if(isset($_GET['search']) && !empty(trim($_GET['search']))){
     $search = "%" . trim($_GET['search']) . "%" ;
 // Use a prepared statement for security against SQL injection
+// FROM just means starting point, php just needs a starting point
+//so it can also be FROM customers
+//JOIN bookings ON bookings.custom_id = customers.id;
+//WHERE customers.full_name LIKE ?;
     $sql = "SELECT bookings.*, customers.full_name, customers.phone
     FROM bookings
+
     JOIN customers ON bookings.custom_id = customers.id 
     WHERE customers.full_name LIKE ?";
 
@@ -97,10 +102,17 @@ while ($row = mysqli_fetch_assoc($result)) { ?>
     <td><?php echo $row["rooms"]; ?></td>
     <td>
         <a href="edit-booking.php?id=<?php echo $row["id"];?>" >Edit</a>
+
+
+        <!--this is only now accessible to an admin
+        what it's simply doing is, check if the session box exists first
+        after that if that is true, then compare what is inside to admin-->
+        <?php if(isset($_SESSION["roles"]) && $_SESSION["roles"] === "admin"): ?>
         <a href="delete-booking.php?id=<?php echo $row["id"];?>"
         onclick="return confirm('Are you sure you want to delete this booking?');">
         Delete
     </a>
+    <?php endif; ?>
 </td>
 </tr>
 <?php } ?>
