@@ -12,6 +12,8 @@ if(!isset($_SESSION["roles"]) || $_SESSION["roles"] !== "admin"){
 
 }
 
+//proceed with the delete logic
+if(isset($_GET["id"])){
     //prepared
     $stmt = mysqli_prepare($conn, "DELETE FROM bookings WHERE id=? ");
 
@@ -22,6 +24,7 @@ if(!isset($_SESSION["roles"]) || $_SESSION["roles"] !== "admin"){
     //close
     mysqli_stmt_close($stmt);
 
+}
 }
     header("Location: index.php");
     exit();
