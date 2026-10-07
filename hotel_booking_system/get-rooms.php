@@ -14,8 +14,7 @@ $sql = "SELECT
             rooms.id AS room_id,
             rooms.room_number,
             rooms.room_type,
-            rooms.price_per_night,
-            rooms.status
+            rooms.price_per_night
         FROM rooms
         ORDER BY rooms.id DESC";
 
