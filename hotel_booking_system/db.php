@@ -11,7 +11,7 @@ $dbname = "hotel_booking_system";
 
 $conn = mysqli_connect($host, $user, $password, $dbname);
 
-if(!$conn){
+if(!$conn){ 
     //this sets up the http status code response to 500 internal server error
     http_response_code(500);
     //this converts php array into a json string and prints it out to 

@@ -1,0 +1,10 @@
+Array
+(
+    [full_name] => John Doe
+    [email] => john@example.com
+    [phone] => 0241234567
+    [room_number] => 101
+    [room_type] => Deluxe
+    [check_in_date] => 2026-06-10
+    [check_out_date] => 2026-06-15
+)
