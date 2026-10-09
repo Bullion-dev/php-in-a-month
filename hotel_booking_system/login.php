@@ -1,8 +1,9 @@
 <?php
 
-//link db
 require_once "db.php";
+
 //check if necessary request method was used
+
 if($_SERVER["REQUEST_METHOD"] !== "POST"){
 http_response_code(405); //405 Method not allowed
 echo json_encode([
@@ -11,6 +12,7 @@ echo json_encode([
 ]);
 exit();
 }
+
 //capture the login credentials no mattter how they were sent
 //GET THE INCOMING JSON PAYLOAD
 $capture =json_decode(file_get_contents("php://input"), true) ;
@@ -30,7 +32,7 @@ exit();
 }
 
 // securely query the db using prepared stmts
-$sql = "SELECT id, name, role, password, email FROM users WHERE email = ? ";
+$sql = "SELECT id, username, role, password, email FROM users WHERE email = ? ";
 $stmt = mysqli_prepare($conn, $sql);
 //bind
 mysqli_stmt_bind_param($stmt, "s", $email);
@@ -41,12 +43,28 @@ $result = mysqli_stmt_get_result($stmt);
 if($row = mysqli_fetch_assoc($result)){
 //verify password against the hashed password in the database
 if (password_verify($password, $row["password"])){
+    //so this asks has a session already been started during this request?
+    //PHP_SESSION_NONE, means no, if none is running then start one
+    //if one is already running do nothing
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    //so this line of code gives the user a fresh session id
+    //the other lines stores those information on the server to be used accross the pages
+    session_regenerate_id(true); 
+    $_SESSION["user_id"]  = $row["id"];
+    $_SESSION["username"] = $row["username"];
+    $_SESSION["email"]    = $row["email"];
+    $_SESSION["role"]     = $row["role"];
+
+
     http_response_code(200);
     echo json_encode([
         "status" => "success",
         "message"=> "Login Succcessful",
         "id" => $row["id"],
-        "name" => $row["name"],
+        "name" => $row["username"],
         "email" => $row["email"],
         "role" => $row["role"],
     ]);
@@ -60,7 +78,7 @@ if (password_verify($password, $row["password"])){
 }
 
 }else{
-    //email not found in db 
+    //email not found in the database
     http_response_code(401); //unauthorized
     echo json_encode([
         "status" => "error",
