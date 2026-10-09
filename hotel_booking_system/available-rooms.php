@@ -19,29 +19,34 @@ if (!isset($_GET["check_in"]) || !isset($_GET["check_out"])) {
     exit();
 }
 
-//get the dates and store them in variables
-$check_in = $_GET["check_in"];
+$check_in  = $_GET["check_in"];
 $check_out = $_GET["check_out"];
 
-//run our date math inside the SELECT query
-//so the inner select checks for conflicts and the outer  
-// select grabs the ones with no conflicts
-$sql = "SELECT
-            rooms.id AS room_id,
-            rooms.room_number,
-            rooms.room_type,
-            rooms.price_per_night
+if ($check_out <= $check_in) {
+    http_response_code(400);
+    echo json_encode(["status" => "error", "message" => "Check-out date must be after check-in date"]);
+    exit();
+}
+
+//the subquery checks for any overlaps
+//simply saying cncelled bookings are not required
+//check_in < ? means the existing booking starts before the new stay ends.
+//check_out < ? means the existing booking ends after the new stay starts.
+$sql = "SELECT rooms.id AS room_id, rooms.room_number, rooms.room_type, rooms.price_per_night,rooms.image_url
         FROM rooms
-        WHERE rooms.id NOT IN(
-            SELECT bookings.room_id
-            FROM bookings
-            WHERE bookings.check_in < '$check_out'
-            AND bookings.check_out > '$check_in'
-            )
-            ORDER BY rooms.room_number ASC";
+        WHERE rooms.id NOT IN (
+            SELECT bookings.room_id FROM bookings
+            WHERE bookings.status != 'cancelled'
+              AND bookings.check_in < ?
+              AND bookings.check_out > ?
+        )
+        ORDER BY rooms.room_number ASC";
 
 
-$result = mysqli_query($conn,$sql);
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "ss", $check_out, $check_in);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
 if($result){
     //create an empty container to store incoming data
