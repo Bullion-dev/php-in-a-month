@@ -1,5 +1,8 @@
 <?php
 require_once "db.php";
+require_once "auth-middleware.php";
+$current_user = authorize_roles(["staff", "admin"]);
+
 
 if($_SERVER["REQUEST_METHOD"] !=="POST"){
     http_response_code(405); //method not allowed
@@ -17,7 +20,7 @@ $room_number = $capture["room_number"] ?? $_POST["room_number"] ?? "";
 $room_type = $capture["room_type"] ?? $_POST["room_type"] ?? "";
 $price_per_night = $capture["price_per_night"] ?? $_POST["price_per_night"] ?? "";
 // default to null if no image is added
-$image_url = "null";
+$image_url = null;
 
 //now we check if the inputs are empty
 if(empty($room_number) || empty($room_type) || empty($price_per_night)){
