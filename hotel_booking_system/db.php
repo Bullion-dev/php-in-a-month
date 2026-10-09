@@ -1,8 +1,16 @@
 <?php
-header("Access-Control-Allow-Oriigin: *");
-header("Content-Type: application/json; charset=UTFF-8");
-header("Access-Control-Allow-Methods:GET, POST, PUT, DELETE");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-All-Headers, Authorization, X-Requested-with");
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods:GET, POST, PUT, DELETE,OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-with");
+
+
+//before a request that carries a login token, the browser first sends a “may I?” check called OPTIONS
+// Answer the browser's "may I?" check and stop here
+if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
+    http_response_code(204);
+    exit();
+}
 
 $host = "localhost";
 $user = "root";
