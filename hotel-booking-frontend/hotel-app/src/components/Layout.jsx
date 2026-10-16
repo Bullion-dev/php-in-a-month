@@ -3,7 +3,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth'
 
 const NAV = {
-  admin: [['/admin', 'Dashboard'], ['/admin/bookings', 'Bookings'], ['/admin/rooms', 'Rooms'], ['/admin/reports', 'Reports']],
+  admin: [['/admin', 'Dashboard'], ['/admin/bookings', 'Bookings'], ['/admin/customers', 'Customers'], ['/admin/rooms', 'Rooms'], ['/admin/reports', 'Reports']],
   user: [['/app', 'Home'], ['/app/rooms', 'Browse rooms'], ['/app/bookings', 'My bookings']],
 }
 export default function Layout({ role }) {

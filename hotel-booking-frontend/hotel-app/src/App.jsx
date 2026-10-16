@@ -8,6 +8,7 @@ import AdminBookings from './pages/AdminBookings'
 import AdminRooms from './pages/AdminRooms'
 import Browse from './pages/Browse'
 import MyBookings from './pages/MyBookings'
+import AdminCustomers from './pages/AdminCustomers'
 
 // Route guard: only lets the right kind of person through.
 function Guard({ role }) {
@@ -26,6 +27,7 @@ export default function App() {
       <Route path="/admin" element={<Guard role="admin" />}>
         <Route index element={<AdminDashboard />} />
         <Route path="bookings" element={<AdminBookings />} />
+        <Route path="customers" element={<AdminCustomers />} />
         <Route path="rooms" element={<AdminRooms />} />
         <Route path="reports" element={<Reports />} />
       </Route>

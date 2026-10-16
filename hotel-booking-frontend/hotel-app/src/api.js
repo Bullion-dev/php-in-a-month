@@ -7,6 +7,7 @@ export const ENDPOINTS = {
   logout: '/logout.php',
   register: '/register.php',
   rooms: '/get-rooms.php',
+  customers: '/get-customers.php',
   addRoom: '/add-rooms.php',
   updateRoom: '/update-rooms.php',
   deleteRoom: '/delete-rooms.php',
