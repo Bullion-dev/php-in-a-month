@@ -14,6 +14,7 @@ export const ENDPOINTS = {
   addBooking: '/add-booking.php',
   myBookings: '/my-bookings.php',
   bookings: '/get-bookings.php',
+  cancelBooking: '/cancel-booking.php',
   stats: '/dashboard-stats.php',
 }
 
