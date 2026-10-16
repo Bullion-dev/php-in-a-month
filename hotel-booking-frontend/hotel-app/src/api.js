@@ -1,8 +1,6 @@
 // THE RECEPTIONIST: every request to your PHP backend goes through here.
-import { mockRequest } from './mock'
-const BASE = import.meta.env.VITE_API_URL
-const DEMO = import.meta.env.VITE_USE_MOCK === 'true' // true = fake data, no backend needed
 
+const BASE = import.meta.env.VITE_API_URL
 // One entry per PHP file in your project folder.
 export const ENDPOINTS = {
   login: '/login.php',
@@ -24,7 +22,6 @@ export const imgUrl = (p) => (p ? `${BASE}/${p}` : null)
 
 //wait for the network then create a receptionist which is request
 async function request(path, { method = 'GET', body } = {}) {
-  if (DEMO) return mockRequest(path, method, body)
   const isForm = body instanceof FormData // room forms carry a photo, so they go as FormData
   const res = await fetch(BASE + path, {
     method,
