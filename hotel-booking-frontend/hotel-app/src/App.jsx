@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { isStaff, useAuth } from './auth'
+import Reports from './pages/Reports'
 import Layout from './components/Layout'
 import AuthPage from './pages/AuthPage'
 import { AdminDashboard, UserDashboard } from './pages/Dashboard'
@@ -26,10 +27,12 @@ export default function App() {
         <Route index element={<AdminDashboard />} />
         <Route path="bookings" element={<AdminBookings />} />
         <Route path="rooms" element={<AdminRooms />} />
+        <Route path="reports" element={<Reports />} />
       </Route>
       <Route path="/app" element={<Guard role="user" />}>
         <Route index element={<UserDashboard />} />
         <Route path="rooms" element={<Browse />} />
+        
         <Route path="bookings" element={<MyBookings />} />
       </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
