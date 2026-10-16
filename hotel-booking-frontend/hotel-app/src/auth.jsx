@@ -16,7 +16,10 @@ export function AuthProvider({ children }) {
     return u
   }
   const register = (f) => api.post(ENDPOINTS.register, f)
-  function logout() { localStorage.removeItem('user'); setUser(null) }
-
+async function logout() {
+  try { await api.post(ENDPOINTS.logout, {}) } catch { /* even if PHP fails, still log out on screen*/}
+  localStorage.removeItem('user')
+  setUser(null)
+}
   return <Ctx.Provider value={{ user, login, register, logout }}>{children}</Ctx.Provider>
 }

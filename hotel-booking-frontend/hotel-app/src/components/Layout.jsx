@@ -19,7 +19,7 @@ export default function Layout({ role }) {
           <NavLink key={to} to={to} end={to === '/admin' || to === '/app'} onClick={() => setOpen(false)}
             className={({ isActive }) => `rounded-lg px-3 py-2 text-sm font-medium ${isActive ? 'bg-slate-200 text-slate-900' : 'text-slate-500 hover:bg-slate-100'}`}>{label}</NavLink>
         ))}
-        <button onClick={() => { logout(); nav('/login') }} className="mt-auto rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-500 hover:bg-slate-100">Logout</button>
+        <button onClick={async () => { await logout(); nav('/login') }} className="mt-auto rounded-lg px-3 py-2 text-left text-sm font-medium text-slate-500 hover:bg-slate-100">Logout</button>
       </aside>
       <div className="min-w-0">
         <header className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3">

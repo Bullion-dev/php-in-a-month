@@ -6,6 +6,7 @@ const DEMO = import.meta.env.VITE_USE_MOCK === 'true' // true = fake data, no ba
 // One entry per PHP file in your project folder.
 export const ENDPOINTS = {
   login: '/login.php',
+  logout: '/logout.php',
   register: '/register.php',
   rooms: '/get-rooms.php',
   addRoom: '/add-rooms.php',
