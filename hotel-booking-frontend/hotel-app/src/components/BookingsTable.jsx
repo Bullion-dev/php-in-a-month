@@ -1,4 +1,5 @@
 import { Badge } from './ui'
+import { money } from '../format'
 // Columns come straight from get-bookings.php / my-bookings.php
 export default function BookingsTable({ rows, admin }) {
   const heads = ['ID', admin && 'Guest', 'Room', 'Check in', 'Check out', 'Total', 'Status'].filter(Boolean)
@@ -13,7 +14,7 @@ export default function BookingsTable({ rows, admin }) {
               {admin && <td className="px-4 py-3">{r.full_name}</td>}
               <td className="px-4 py-3">{r.room_number} · {r.room_type}</td>
               <td className="px-4 py-3">{r.check_in}</td><td className="px-4 py-3">{r.check_out}</td>
-              <td className="px-4 py-3">${r.total_price}</td><td className="px-4 py-3"><Badge v={r.status} /></td>
+              <td className="px-4 py-3">{money(r.total_price)}</td><td className="px-4 py-3"><Badge v={r.status} /></td>
             </tr>
           ))}
           {!rows.length && <tr><td colSpan="7" className="px-4 py-8 text-center text-slate-500">No bookings yet.</td></tr>}

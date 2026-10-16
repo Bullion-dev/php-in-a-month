@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { api, asList, ENDPOINTS, imgUrl } from '../api'
 import { useFetch } from '../useFetch'
 import { Btn, Field, Modal, Status } from '../components/ui'
+import { money } from '../format'
 
 export default function AdminRooms() {
   const { data, loading, error, reload } = useFetch(ENDPOINTS.rooms)
@@ -38,7 +39,7 @@ export default function AdminRooms() {
               {asList(data).map((r) => (
                 <tr key={r.room_id} className="border-t border-slate-100">
                   <td className="px-4 py-2">{r.image_url ? <img src={imgUrl(r.image_url)} alt="" className="h-10 w-14 rounded object-cover" /> : <span className="text-slate-300">🖼</span>}</td>
-                  <td className="px-4 py-3">{r.room_number}</td><td className="px-4 py-3">{r.room_type}</td><td className="px-4 py-3">${r.price_per_night}</td>
+                  <td className="px-4 py-3">{r.room_number}</td><td className="px-4 py-3">{r.room_type}</td><td className="px-4 py-3">{money(r.price_per_night)}</td>
                   <td className="space-x-3 whitespace-nowrap px-4 py-3">
                     <button className="font-medium underline" onClick={() => setForm({ id: r.room_id, room_number: r.room_number, room_type: r.room_type, price_per_night: r.price_per_night })}>Edit</button>
                     <button className="font-medium text-red-600 underline" onClick={() => remove(r)}>Delete</button>

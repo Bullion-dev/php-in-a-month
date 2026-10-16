@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { api, asList, ENDPOINTS, imgUrl } from '../api'
 import { useAuth } from '../auth'
 import { Btn, Field, Modal, Status } from '../components/ui'
+import { money } from '../format'
 
 export default function Browse() {
   const { user } = useAuth()
@@ -32,7 +33,7 @@ export default function Browse() {
     try {
       // add-booking.php wants exactly these field names
       const r = await api.post(ENDPOINTS.addBooking, { full_name: user.name, email: user.email, phone, room_number: room.room_number, room_type: room.room_type, check_in_date: dates.check_in, check_out_date: dates.check_out })
-      setRoom(null); setOk(`Booking confirmed. Total: $${r.total_price}`); check()
+      setRoom(null); setOk(`Booking confirmed. Total: ${money(r.total_price)}`); check()
     } catch (x) { setRoom(null); setState((s) => ({ ...s, error: x.message })) }
   }
 
@@ -52,7 +53,7 @@ export default function Browse() {
           <div key={r.room_id} className="overflow-hidden rounded-xl border border-slate-200 bg-white">
             {r.image_url ? <img src={imgUrl(r.image_url)} alt={r.room_type} className="h-32 w-full object-cover" /> : <div className="grid h-32 place-items-center bg-slate-200 text-3xl text-slate-400">🖼</div>}
             <div className="space-y-1 p-4">
-              <p className="font-semibold">{r.room_type} · Room {r.room_number}</p><p className="text-sm text-slate-500">${r.price_per_night} / night</p>
+              <p className="font-semibold">{r.room_type} · Room {r.room_number}</p><p className="text-sm text-slate-500">{money(r.price_per_night)} / night</p>
               <Btn className="mt-2 w-full" onClick={() => openBook(r)}>Book now</Btn>
             </div>
           </div>
@@ -61,7 +62,7 @@ export default function Browse() {
       {room && (
         <Modal title="Book room" onClose={() => setRoom(null)}>
           <form onSubmit={confirmBooking} className="space-y-3">
-            <p className="font-semibold">{room.room_type} · Room {room.room_number} · ${room.price_per_night} / night</p>
+            <p className="font-semibold">{room.room_type} · Room {room.room_number} · {money(room.price_per_night)} / night</p>
             <p className="text-sm text-slate-600">{dates.check_in} to {dates.check_out}</p>
             <Field label="Phone number" f={{ type: 'tel' }} value={phone} onChange={setPhone} />
             <div className="flex justify-end gap-2"><Btn type="button" ghost onClick={() => setRoom(null)}>Cancel</Btn><Btn type="submit">Confirm booking</Btn></div>
